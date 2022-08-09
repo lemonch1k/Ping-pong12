@@ -17,10 +17,11 @@ font1 = font.SysFont('Arial', 40)
 lost = 0
 
 class GameSprite(sprite.Sprite):
-    def init(self, player_image, player_y, width, height, speed):
-        sprite.Sprite.init(self)
+    def __init__(self, player_image, player_x, player_y, width, height, speed):
+        sprite.Sprite.__init__(self)
         self.image = transform.scale(image.load(player_image), (width, height))
         self.rect = self.image.get_rect()
+        self.rect.x = player_x
         self.rect.y = player_y
         self.speed = speed
     def reset(self):
@@ -41,12 +42,18 @@ class Player(GameSprite):
         if keys[K_DOWN] and self.rect.y < 605:
             self.rect.y += self.speed
 
-
-
-while game:
-    window.blit(background, (0, 0))
+racket1 = Player('back.png', 5, 200, 30, 60, 10)
+racket2 = Player('back.png', 650, 300, 30, 60, 10)
+ball = GameSprite('back.png', 100, 300, 50, 50, 10)
+run = True
+finish = False
+while run:
+    window.blit(background, (0,0))
+    racket1.reset()
+    racket2.reset()
+    ball.reset()
     for e in event.get():
         if e.type == QUIT:
-            game = False
+            run = False
     display.update()
     clock.tick(FPS)
